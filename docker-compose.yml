@@ -19,3 +19,9 @@ services:
 
 # DBの接続
 # docker exec -it postgres psql -U nestjsuser fleamarket
+
+# マイグレーション
+# npx prisma migrate dev --name init
+
+# prisma studioの立ち上げ
+# npx prisma studio
