@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Item } from './items.model';
 import { CreateItemDto } from './dto/create-item.dto';
 import { v4 as uuid } from 'uuid';
@@ -6,13 +6,19 @@ import { v4 as uuid } from 'uuid';
 @Injectable()
 export class ItemsService {
   private items: Item[] = [];
+
   findAll() {
     return this.items;
   }
 
   findById(id: string): Item {
     // MEMO: 一致するidのitemを返す
-    return this.items.find((item) => item.id === id);
+    const found = this.items.find((item) => item.id === id);
+    if (!found) {
+      // 検索した商品が見つからないときは例外を返す
+      throw new NotFoundException();
+    }
+    return found;
   }
 
   create(createItemDto: CreateItemDto): Item {
